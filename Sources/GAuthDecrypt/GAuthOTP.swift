@@ -23,13 +23,13 @@ public struct GAuthOTP: Hashable, Codable {
         case md5
     }
     
-    let type: OTP_Type
-    let algorithm: Algorithm_Type
-    let name: String
-    let secret: Data
-    let issuer: String
-    let counter: Int64
-    let digitsRawValue: Int
+    public let type: OTP_Type
+    public let algorithm: Algorithm_Type
+    public let name: String
+    public let secret: Data
+    public let issuer: String
+    public let counter: Int64
+    public let digitsRawValue: Int
     
     init(typeRawInt: Int, algorithmRawInt: Int, name: String, secret: Data, issuer: String, counter: Int64, digitsRawValue: Int) {
         self.type = OTP_Type(rawValue: typeRawInt) ?? .unspecified
