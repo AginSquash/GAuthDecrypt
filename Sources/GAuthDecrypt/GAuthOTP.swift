@@ -9,18 +9,18 @@ import Foundation
 import SwiftProtobuf
 
 public struct GAuthOTP: Hashable, Codable {
-    enum OTP_Type: Int, Codable {
+    public enum OTP_Type: Int, Codable {
         case unspecified //= 0
         case hotp //= 1
         case totp //= 2
     }
     
-    enum Algorithm_Type: Int, Codable {
-    case unspecified
-    case sha1
-    case sha256
-    case sha512
-    case md5
+    public enum Algorithm_Type: Int, Codable {
+        case unspecified
+        case sha1
+        case sha256
+        case sha512
+        case md5
     }
     
     let type: OTP_Type
