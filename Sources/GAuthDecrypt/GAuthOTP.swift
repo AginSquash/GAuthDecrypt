@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftProtobuf
+import Base32
 
 public struct GAuthOTP: Hashable, Codable {
     public enum OTP_Type: Int, Codable {
@@ -26,7 +27,7 @@ public struct GAuthOTP: Hashable, Codable {
     public let type: OTP_Type
     public let algorithm: Algorithm_Type
     public let name: String
-    public let secret: Data
+    public let secret: String
     public let issuer: String
     public let counter: Int64
     public let digitsRawValue: Int
@@ -35,7 +36,7 @@ public struct GAuthOTP: Hashable, Codable {
         self.type = OTP_Type(rawValue: typeRawInt) ?? .unspecified
         self.algorithm = Algorithm_Type(rawValue: algorithmRawInt) ?? .unspecified
         self.name = name
-        self.secret = secret
+        self.secret = base32Encode(secret)
         self.issuer = issuer
         self.counter = counter
         self.digitsRawValue = digitsRawValue
