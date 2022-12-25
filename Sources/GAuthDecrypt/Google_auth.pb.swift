@@ -39,66 +39,26 @@ struct MigrationPayload {
 
   enum Algorithm: SwiftProtobuf.Enum {
     typealias RawValue = Int
-    case unspecified // = 0
-    case sha1 // = 1
-    case sha256 // = 2
-    case sha512 // = 3
-    case md5 // = 4
+    case algoInvalid // = 0
+    case algoSha1 // = 1
     case UNRECOGNIZED(Int)
 
     init() {
-      self = .unspecified
+      self = .algoInvalid
     }
 
     init?(rawValue: Int) {
       switch rawValue {
-      case 0: self = .unspecified
-      case 1: self = .sha1
-      case 2: self = .sha256
-      case 3: self = .sha512
-      case 4: self = .md5
+      case 0: self = .algoInvalid
+      case 1: self = .algoSha1
       default: self = .UNRECOGNIZED(rawValue)
       }
     }
 
     var rawValue: Int {
       switch self {
-      case .unspecified: return 0
-      case .sha1: return 1
-      case .sha256: return 2
-      case .sha512: return 3
-      case .md5: return 4
-      case .UNRECOGNIZED(let i): return i
-      }
-    }
-
-  }
-
-  enum DigitCount: SwiftProtobuf.Enum {
-    typealias RawValue = Int
-    case unspecified // = 0
-    case six // = 1
-    case eight // = 2
-    case UNRECOGNIZED(Int)
-
-    init() {
-      self = .unspecified
-    }
-
-    init?(rawValue: Int) {
-      switch rawValue {
-      case 0: self = .unspecified
-      case 1: self = .six
-      case 2: self = .eight
-      default: self = .UNRECOGNIZED(rawValue)
-      }
-    }
-
-    var rawValue: Int {
-      switch self {
-      case .unspecified: return 0
-      case .six: return 1
-      case .eight: return 2
+      case .algoInvalid: return 0
+      case .algoSha1: return 1
       case .UNRECOGNIZED(let i): return i
       }
     }
@@ -107,29 +67,29 @@ struct MigrationPayload {
 
   enum OtpType: SwiftProtobuf.Enum {
     typealias RawValue = Int
-    case unspecified // = 0
-    case hotp // = 1
-    case totp // = 2
+    case otpInvalid // = 0
+    case otpHotp // = 1
+    case otpTotp // = 2
     case UNRECOGNIZED(Int)
 
     init() {
-      self = .unspecified
+      self = .otpInvalid
     }
 
     init?(rawValue: Int) {
       switch rawValue {
-      case 0: self = .unspecified
-      case 1: self = .hotp
-      case 2: self = .totp
+      case 0: self = .otpInvalid
+      case 1: self = .otpHotp
+      case 2: self = .otpTotp
       default: self = .UNRECOGNIZED(rawValue)
       }
     }
 
     var rawValue: Int {
       switch self {
-      case .unspecified: return 0
-      case .hotp: return 1
-      case .totp: return 2
+      case .otpInvalid: return 0
+      case .otpHotp: return 1
+      case .otpTotp: return 2
       case .UNRECOGNIZED(let i): return i
       }
     }
@@ -147,11 +107,11 @@ struct MigrationPayload {
 
     var issuer: String = String()
 
-    var algorithm: MigrationPayload.Algorithm = .unspecified
+    var algorithm: MigrationPayload.Algorithm = .algoInvalid
 
-    var digits: MigrationPayload.DigitCount = .unspecified
+    var digits: Int32 = 0
 
-    var type: MigrationPayload.OtpType = .unspecified
+    var type: MigrationPayload.OtpType = .otpInvalid
 
     var counter: Int64 = 0
 
@@ -168,29 +128,17 @@ struct MigrationPayload {
 extension MigrationPayload.Algorithm: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
   static var allCases: [MigrationPayload.Algorithm] = [
-    .unspecified,
-    .sha1,
-    .sha256,
-    .sha512,
-    .md5,
-  ]
-}
-
-extension MigrationPayload.DigitCount: CaseIterable {
-  // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [MigrationPayload.DigitCount] = [
-    .unspecified,
-    .six,
-    .eight,
+    .algoInvalid,
+    .algoSha1,
   ]
 }
 
 extension MigrationPayload.OtpType: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
   static var allCases: [MigrationPayload.OtpType] = [
-    .unspecified,
-    .hotp,
-    .totp,
+    .otpInvalid,
+    .otpHotp,
+    .otpTotp,
   ]
 }
 
@@ -199,7 +147,6 @@ extension MigrationPayload.OtpType: CaseIterable {
 #if swift(>=5.5) && canImport(_Concurrency)
 extension MigrationPayload: @unchecked Sendable {}
 extension MigrationPayload.Algorithm: @unchecked Sendable {}
-extension MigrationPayload.DigitCount: @unchecked Sendable {}
 extension MigrationPayload.OtpType: @unchecked Sendable {}
 extension MigrationPayload.OtpParameters: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
@@ -264,27 +211,16 @@ extension MigrationPayload: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
 
 extension MigrationPayload.Algorithm: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "ALGORITHM_UNSPECIFIED"),
-    1: .same(proto: "ALGORITHM_SHA1"),
-    2: .same(proto: "ALGORITHM_SHA256"),
-    3: .same(proto: "ALGORITHM_SHA512"),
-    4: .same(proto: "ALGORITHM_MD5"),
-  ]
-}
-
-extension MigrationPayload.DigitCount: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "DIGIT_COUNT_UNSPECIFIED"),
-    1: .same(proto: "DIGIT_COUNT_SIX"),
-    2: .same(proto: "DIGIT_COUNT_EIGHT"),
+    0: .same(proto: "ALGO_INVALID"),
+    1: .same(proto: "ALGO_SHA1"),
   ]
 }
 
 extension MigrationPayload.OtpType: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "OTP_TYPE_UNSPECIFIED"),
-    1: .same(proto: "OTP_TYPE_HOTP"),
-    2: .same(proto: "OTP_TYPE_TOTP"),
+    0: .same(proto: "OTP_INVALID"),
+    1: .same(proto: "OTP_HOTP"),
+    2: .same(proto: "OTP_TOTP"),
   ]
 }
 
@@ -310,7 +246,7 @@ extension MigrationPayload.OtpParameters: SwiftProtobuf.Message, SwiftProtobuf._
       case 2: try { try decoder.decodeSingularStringField(value: &self.name) }()
       case 3: try { try decoder.decodeSingularStringField(value: &self.issuer) }()
       case 4: try { try decoder.decodeSingularEnumField(value: &self.algorithm) }()
-      case 5: try { try decoder.decodeSingularEnumField(value: &self.digits) }()
+      case 5: try { try decoder.decodeSingularInt32Field(value: &self.digits) }()
       case 6: try { try decoder.decodeSingularEnumField(value: &self.type) }()
       case 7: try { try decoder.decodeSingularInt64Field(value: &self.counter) }()
       default: break
@@ -328,13 +264,13 @@ extension MigrationPayload.OtpParameters: SwiftProtobuf.Message, SwiftProtobuf._
     if !self.issuer.isEmpty {
       try visitor.visitSingularStringField(value: self.issuer, fieldNumber: 3)
     }
-    if self.algorithm != .unspecified {
+    if self.algorithm != .algoInvalid {
       try visitor.visitSingularEnumField(value: self.algorithm, fieldNumber: 4)
     }
-    if self.digits != .unspecified {
-      try visitor.visitSingularEnumField(value: self.digits, fieldNumber: 5)
+    if self.digits != 0 {
+      try visitor.visitSingularInt32Field(value: self.digits, fieldNumber: 5)
     }
-    if self.type != .unspecified {
+    if self.type != .otpInvalid {
       try visitor.visitSingularEnumField(value: self.type, fieldNumber: 6)
     }
     if self.counter != 0 {
