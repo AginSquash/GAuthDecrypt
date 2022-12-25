@@ -7,9 +7,20 @@ public enum GAuthErrorType: Error {
 }
     
 internal func parseInputString(input: String) -> Data? {
-    if input.contains("otpauth-migration://offline?data=") {
-        let parsedString = input.replacingOccurrences(of: "otpauth-migration://offline?data=", with: "")
-        return Data(base64Encoded: parsedString)
+    if input.contains("otpauth-migration://") {
+        guard let urlFromInput = URL(string: input) else { return nil }
+        var dict = [String:String]()
+        let components = URLComponents(url: urlFromInput, resolvingAgainstBaseURL: false)!
+        if let queryItems = components.queryItems {
+            for item in queryItems {
+                dict[item.name] = item.value!
+            }
+        }
+        let data_parsed = dict.first!.value
+        let data_fixed = data_parsed.replacingOccurrences(of: " ", with: "+") // а зочем?
+        let data_b64 = Data(base64Encoded: data_fixed)
+        
+        return data_b64
     }
     return nil
 }
@@ -22,7 +33,7 @@ internal func decryptParsed(data: Data) -> [GAuthOTP]? {
     let otpParamaters = migrationPayload.otpParameters
     var decryptedAccounts = [GAuthOTP]()
     for account in otpParamaters {
-        decryptedAccounts.append(GAuthOTP(typeRawInt: account.type.rawValue, algorithmRawInt: account.algorithm.rawValue, name: account.name, secret: account.secret, issuer: account.issuer, counter: account.counter, digitsRawValue: account.digits.rawValue))
+        decryptedAccounts.append(GAuthOTP(typeRawInt: account.type.rawValue, algorithmRawInt: account.algorithm.rawValue, name: account.name, secret: account.secret, issuer: account.issuer, counter: account.counter, digitsRawValue: Int(account.digits)))
     }
     guard decryptedAccounts.isEmpty == false else {
         print("Cannot decode or otpParamaters is empety")
