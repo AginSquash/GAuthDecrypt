@@ -1,5 +1,5 @@
 # GAuthDecrypt
-[![Latest Release](https://img.shields.io/github/v/release/AginSquash/GAuthDecrypt)](https://github.com/AginSquash/open2fa/releases)
+[![Latest Release](https://img.shields.io/github/v/release/aginsquash/GAuthDecrypt)](https://github.com/AginSquash/GAuthDecrypt/releases)
 ![Swift Version](https://img.shields.io/badge/Swift-5.0-orange.svg)
 [![Platform](https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos-lightgrey)](http://cocoapods.org/pods/SwiftOTP)
 
