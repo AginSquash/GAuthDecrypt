@@ -39,7 +39,7 @@ All dependencies in this project are added through SPM. Links to them:
 
 ## License
 
-Copyright (C) 2020 Vladislav Vrublevsky <agins.main@gmail.com>
+Copyright (C) 2023 Vladislav Vrublevsky <agins.main@gmail.com>
 
 This software is provided 'as-is', without any express or implied warranty.
 
