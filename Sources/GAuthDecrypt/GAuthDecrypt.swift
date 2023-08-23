@@ -17,7 +17,7 @@ internal func parseInputString(input: String) -> Data? {
             }
         }
         let data_parsed = dict.first!.value
-        let data_fixed = data_parsed.replacingOccurrences(of: " ", with: "+") // а зочем?
+        let data_fixed = data_parsed.replacingOccurrences(of: " ", with: "+") 
         let data_b64 = Data(base64Encoded: data_fixed)
         
         return data_b64
