@@ -3,6 +3,8 @@
 ![Swift Version](https://img.shields.io/badge/Swift-5.0-orange.svg)
 [![Platform](https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos-lightgrey)](http://cocoapods.org/pods/SwiftOTP)
 
+![Tests](https://github.com/AginSquash/GAuthDecrypt/actions/workflows/swift-tests.yml/badge.svg)
+
 GAuthDecrypt is Swift library for extraction two-factor authentication secret keys from export QR codes of Google Authenticator app. At the input is a string read from a qr code, at the output is an array of objects of the GAuthOTP type. 
 I used it on my 2FA app check it [Open2FA](https://github.com/AginSquash/open2fa/)
 
@@ -11,7 +13,7 @@ You can use Swift Package Manager and specify dependency in `Package.swift` by a
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/AginSquash/GAuthDecrypt.git", .upToNextMinor(from: "2.0.0"))
+    .package(url: "https://github.com/AginSquash/GAuthDecrypt.git", .upToNextMinor(from: "3.0.0"))
 ]
 ```
 
@@ -20,7 +22,7 @@ Or click File -> Add Packages. In search form enter `https://github.com/AginSqua
 ## Usage
 ```swift
 let stringFromGoogleAuthApp = "otpauth-migration://offline?data=CjEKCkhlbGxvId6tvu8SGEV4YW1wbGU6YWxpY2VAZ29vZ2xlLmNvbRoHRXhhbXBsZTAC"
-let decrypted = GAuthDecryptFrom(input: stringFromGoogleAuthApp) // decrypted type is Optional<[GAuthOTP]>
+let decrypted = try? GAuthDecrypt.decrypt(input: stringFromGoogleAuthApp) // decrypted type is Optional<[GAuthOTP]>
 print(decrypted![0]) 
 /*
     type: .totp, 
@@ -39,7 +41,7 @@ All dependencies in this project are added through SPM. Links to them:
 
 ## License
 
-Copyright (C) 2023 Vladislav Vrublevsky <agins.main@gmail.com>
+Copyright (C) 2024 Vladislav Vrublevsky <agins.main@gmail.com>
 
 This software is provided 'as-is', without any express or implied warranty.
 
