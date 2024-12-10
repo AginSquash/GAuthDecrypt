@@ -2,7 +2,6 @@
 [![Latest Release](https://img.shields.io/github/v/release/aginsquash/GAuthDecrypt)](https://github.com/AginSquash/GAuthDecrypt/releases)
 ![Swift Version](https://img.shields.io/badge/Swift-5.0-orange.svg)
 [![Platform](https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos-lightgrey)](http://cocoapods.org/pods/SwiftOTP)
-
 ![Tests](https://github.com/AginSquash/GAuthDecrypt/actions/workflows/swift-tests.yml/badge.svg)
 
 GAuthDecrypt is Swift library for extraction two-factor authentication secret keys from export QR codes of Google Authenticator app. At the input is a string read from a qr code, at the output is an array of objects of the GAuthOTP type. 
