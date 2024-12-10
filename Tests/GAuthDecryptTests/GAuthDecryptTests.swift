@@ -32,7 +32,7 @@ final class GAuthDecryptTests: XCTestCase {
     }
     
     func testGAuthMultipleDecrypt() {
-        let input = "otpauth-migration://offline?data=CiMKC5OYSRBRJMThkOSJEg5Tb21lIGNvZGUgd2l0aCABKAEwAgoZCgqHIGPETdC5oJg5EgV0ZXN0MSABKAEwAgoZCgqHIGPETdC5oJg5EgV0ZXN0MiABKAEwAhABGAEgAA%3D%3D"
+        let input = "otpauth-migration://offline?data=CiMKC5OYSRBRJMThkOSJEg5Tb21lIGNvZGUgd2l0aCABKAEwAgoZCgqHIGPETdC5oJg5EgV0ZXN0MSABKAEwAgoZCgqHIGPETdC5oJg5EgV0ZXN0MiABKAD"
         
         do {
             let gauth = try GAuthDecrypt.decrypt(input: input)
@@ -49,7 +49,7 @@ final class GAuthDecryptTests: XCTestCase {
     }
     
     func testIncorrectGAuthDecrypt() {
-        let input = "otpauth-migration://offline?data=cmFuZG9tdGV4dGhlcmVlbmNvZGVk"
+        let input = "otpauth-migration://offline?data=cmFuZG9tdGV4dGhlcmVlbmZGVk"
         
         XCTAssertThrowsError(try GAuthDecrypt.decrypt(input: input)) { error in
             XCTAssertEqual(error as? GAuthError, .cannotDecrypt, "Expected .cannotDecrypt error type")
