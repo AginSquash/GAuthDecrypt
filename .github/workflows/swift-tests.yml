@@ -1,0 +1,25 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main  
+      - dev
+  pull_request:
+    branches:
+      - main  
+      - dev
+
+jobs:
+  test:
+    runs-on: macos-latest 
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  
+
+    - name: Set up Swift
+      run: sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+
+    - name: Run Tests
+      run: swift test 
